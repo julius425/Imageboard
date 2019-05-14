@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<h3><a href="{% url 'core:thread_view' thread.id %}">Thread #: {{ thread.id }}</a></h3>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+     <div class="col-md-10">
+
+        <div>
+          <img src="{{thread.image_url}}" alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail" height="420" width="420">
+        </div>
+
+
+        <div class="container break-text">
+          <div class="row">
+            <div class="col-xs-4">
+                <p>{{thread.date}}</p>
+                <article>{{thread.text}}</article>
+           </div>
+        </div>
+
+     </div>
+
+    {% for post in posts %}
+    <div class="col-md-10">
+
+      <div >
+        <img src="{{post.image_url}}" alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail" height="420" width="420">
+      </div>
+
+
+    <div class="container break-text">
+        <div class="row">
+            <div class="col-xs-4">
+                <p>{{post.date}}</p>
+                <article>{{post.text}}</article>
+           </div>
+        </div>
+    </div>
+
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+    <div class="container">
+        <div class="row">
+
+            <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-primary" type="submit" >Post this </button>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

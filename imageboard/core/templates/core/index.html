@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<h2>Thread List</h2>
+{% endblock %}
+
+{% block content %}
+{% if threads %}
+<div class="container">
+    {% for thread in threads %}
+
+    <div class="col-md-10">
+        <div >
+          <img src="{{thread.image_url}}" alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail" height="420" width="420">
+        </div>
+        <div class="container break-text">
+          <div class="row">
+              <div class="col-xs-4">
+                  <p>{{thread.date}}</p>
+                  <article>{{thread.text}}</article>
+                  <a href="{% url 'core:thread_view' thread.id %}">reply to thread</a>
+              </div>
+          </div>
+          {% for post in thread.postmodel_set.all|slice:":3" %}
+          <div class="container">
+              <img src="{{post.image_url}}" alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail" height="210" width="210">
+              <p>{{post.text}}</p>
+              <p>{{post.date}}</p>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %} {{form.as_p}}<button class="btn btn-primary" type="submit" >Post this </button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
